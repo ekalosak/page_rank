@@ -24,16 +24,17 @@
 import random as r
 import string as s
 import math as m
+import pdb
 from itertools import compress
 
 r.seed(33)
 
 # voc = s.ascii_lowercase
-voc_sz = 8
+voc_sz = 3
 voc = [s.ascii_lowercase[i] for i in range(voc_sz)]
-kw = "e"
-p_len = 4
-n_pgs = 8
+kw = "a"
+p_len = 2
+n_pgs = 4
 print("using vocab:", voc)
 
 # Generate pages with process on limited vocabulary
@@ -50,6 +51,15 @@ for p in P:
 # Generate random links to other pages
 make_len_b = lambda: m.floor(r.uniform(0, n_pgs))
 B = [r.sample(range(n_pgs), make_len_b()) for i in range(n_pgs)]
+print("made backlinks:", B)
+
+# Score pages by number of backlinks
+S = [len(b) for b in B]
+print("initial page scores:", S)
+
+# Return best scored pages out of all pages (not kw filtered)
+R = list(reversed(sorted(range(len(S)), key=lambda k: S[k])))
+print("scored pages in order:", R)
 
 # Search by keyword
 print("searching for:", kw)
@@ -58,14 +68,9 @@ p_kw = [contains_kw(kw, p) for p in P]
 p_kw_ix = list(compress(range(n_pgs), p_kw))
 print("pages containing", kw, p_kw_ix)
 
-# Score pages by number of backlinks
-S = [len(b) for b in B]
-print("page scores:", S)
-
-# Return best scored page containing the keyword
-# TODO sort this out
-R = sorted(range(len(p_kw)), key=lambda k: p_kw[k])
-print("found pages in order:", R)
+# Return kw matches sorted by score
+Q = [r for r in R if r in p_kw_ix]
+print("returning query:", Q)
 
 # END CODE
 
