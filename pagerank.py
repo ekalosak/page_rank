@@ -35,6 +35,7 @@ voc = [s.ascii_lowercase[i] for i in range(voc_sz)]
 kw = "a"
 p_len = 2
 n_pgs = 4
+n_rescore = 5
 print("using vocab:", voc)
 
 # Generate pages with process on limited vocabulary
@@ -54,8 +55,16 @@ B = [r.sample(range(n_pgs), make_len_b()) for i in range(n_pgs)]
 print("made backlinks:", B)
 
 # Score pages by number of backlinks
-S = [len(b) for b in B]
-print("initial page scores:", S)
+S0 = [len(b) for b in B]
+print("initial page scores:", S0)
+
+# Update scoring function with scores of linking pages
+# i.e. new score is sum of scores of every backlinked page
+rescore = lambda S: [sum([S[p] for p in b]) for b in B]
+S = S0
+for i in range(n_rescore):
+    S = rescore(S)
+print("final page scores:", S)
 
 # Return best scored pages out of all pages (not kw filtered)
 R = list(reversed(sorted(range(len(S)), key=lambda k: S[k])))
