@@ -18,6 +18,7 @@
 #
 # SOURCES
 # 1. https://stackoverflow.com/questions/7851077/how-to-return-index-of-a-sorted-list
+# 2. Bryan-Leise-SIAM2006
 
 # BEGIN CODE
 import random as r
