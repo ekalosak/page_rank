@@ -1,0 +1,3 @@
+from pagerank import *
+
+assert()

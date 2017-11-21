@@ -26,6 +26,8 @@ import string as s
 import math as m
 from itertools import compress
 
+r.seed(33)
+
 # voc = s.ascii_lowercase
 voc_sz = 8
 voc = [s.ascii_lowercase[i] for i in range(voc_sz)]
@@ -41,7 +43,9 @@ make_page = lambda: r.sample(voc, p_len) # w.o replacement
 
 P = [make_page() for i in range(n_pgs)]
 assert(len(P)==n_pgs)
-print("made", len(P), "pages")
+print("made", len(P), "pages:")
+for p in P:
+    print(p)
 
 # Generate random links to other pages
 make_len_b = lambda: m.floor(r.uniform(0, n_pgs))
@@ -59,7 +63,8 @@ S = [len(b) for b in B]
 print("page scores:", S)
 
 # Return best scored page containing the keyword
-R = sorted(range(n_pgs), key=lambda k: p_kw[k])
+# TODO sort this out
+R = sorted(range(len(p_kw)), key=lambda k: p_kw[k])
 print("found pages in order:", R)
 
 # END CODE
