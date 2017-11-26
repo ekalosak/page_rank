@@ -30,12 +30,12 @@ from itertools import compress
 r.seed(33)
 
 # voc = s.ascii_lowercase
-voc_sz = 3
+voc_sz = 7
 voc = [s.ascii_lowercase[i] for i in range(voc_sz)]
 kw = "a"
-p_len = 2
-n_pgs = 4
-n_rescore = 5
+p_len = 5
+n_pgs = 20
+n_rescore = 10
 print("using vocab:", voc)
 
 # Generate pages with process on limited vocabulary
@@ -65,9 +65,13 @@ print("initial page scores:", S0)
 # Update scoring function with scores of linking pages
 # i.e. new score is sum of scores of every backlinked page
 rescore = lambda S: [sum([S[p] for p in b]) for b in B]
-S = S0
+norm = sum([s**2 for s in S0])**(1/2)
+S = [s/norm for s in S0]
 for i in range(n_rescore):
     S = rescore(S)
+    norm = sum([s**2 for s in S])**(1/2)
+    S = [s/norm for s in S]
+
 print("final page scores:", S)
 
 # TODO adjust score by number of links
