@@ -66,6 +66,8 @@ for i in range(n_rescore):
     S = rescore(S)
 print("final page scores:", S)
 
+# TODO adjust score by number of links
+
 # Return best scored pages out of all pages (not kw filtered)
 R = list(reversed(sorted(range(len(S)), key=lambda k: S[k])))
 print("scored pages in order:", R)
