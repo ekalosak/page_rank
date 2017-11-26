@@ -54,8 +54,12 @@ make_len_b = lambda: m.floor(r.uniform(0, n_pgs))
 B = [r.sample(range(n_pgs), make_len_b()) for i in range(n_pgs)]
 print("made backlinks:", B)
 
-# Score pages by number of backlinks
-S0 = [len(b) for b in B]
+# Calculate number of links each page has
+N = [sum([i in b for b in B]) for i in range(n_pgs)]
+Ni = [1/n for n in N]
+
+# Score pages by number of backlinks over number of links target page has
+S0 = [sum([Ni[b] for b in B[i]]) for i in range(n_pgs)]
 print("initial page scores:", S0)
 
 # Update scoring function with scores of linking pages
